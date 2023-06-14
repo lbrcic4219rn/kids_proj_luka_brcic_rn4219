@@ -1,0 +1,31 @@
+21:03:17 - Starting servent [1|localhost|1600]
+JA SAM
+21:03:17 - Pausing for 1000 ms
+21:03:18 - Trying to get lock...
+21:03:18 - Prosao saljem poruke
+21:03:18 - Got lock!
+21:03:18 - Pausing for 5000 ms
+21:03:18 - Got message [0|0|0|SUZUKI_KASAMI_REQUEST|1]
+21:03:18 - Got 0 from [0|localhost|1500] broadcast by [0|localhost|1500]
+21:03:18 - nije nasa poruka
+21:03:18 - ubacili
+21:03:18 - prosao redudantan
+Client message type: SKRequestMessage
+21:03:18 - [0|localhost|1500]
+21:03:18 - prosao postavljanje rn
+21:03:18 - Alooo
+true
+ne dam, moj token
+na cekanju si
+21:03:18 - Rebroadcasting... 1
+21:03:18 - Sending message [0|0|0|SUZUKI_KASAMI_REQUEST|3]
+21:03:18 - Sending message [0|0|0|SUZUKI_KASAMI_REQUEST|0]
+21:03:23 - Unlocking...
+21:03:23 - Pausing for 14000 ms
+21:03:23 - Sending message [1|1||SUZUKI_KASAMI_TOKEN|0]
+21:03:23 - Sending message [1|1||SUZUKI_KASAMI_TOKEN|3]
+21:03:23 - Got message [1|1||SUZUKI_KASAMI_TOKEN|1]
+aloooooo
+21:03:23 - Got  from [3|localhost|1800] broadcast by [1|localhost|1600]
+21:03:23 - Got own message back. No rebroadcast.
+21:03:37 - Stopping...

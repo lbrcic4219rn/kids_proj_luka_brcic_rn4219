@@ -1,0 +1,30 @@
+21:03:17 - Starting servent [0|localhost|1500]
+21:03:17 - Pausing for 1000 ms
+21:03:18 - Trying to get lock...
+21:03:18 - Prosao saljem poruke
+21:03:18 - Sending message [0|0|0|SUZUKI_KASAMI_REQUEST|2]
+21:03:18 - Sending message [0|0|0|SUZUKI_KASAMI_REQUEST|1]
+21:03:18 - Got message [0|0|0|SUZUKI_KASAMI_REQUEST|0]
+21:03:18 - Got 0 from [1|localhost|1600] broadcast by [0|localhost|1500]
+21:03:18 - Got own message back. No rebroadcast.
+21:03:23 - Got message [1|1||SUZUKI_KASAMI_TOKEN|0]
+aloooooo
+21:03:23 - Got  from [1|localhost|1600] broadcast by [1|localhost|1600]
+cek cek
+Client message type: SKTokenMessage
+cek cek
+21:03:23 - Got lock!
+21:03:23 - Pausing for 4000 ms
+21:03:23 - Got message [1|1||SUZUKI_KASAMI_TOKEN|0]
+aloooooo
+21:03:23 - Got  from [2|localhost|1700] broadcast by [1|localhost|1600]
+21:03:23 - Already had this. No rebroadcast.
+21:03:27 - Unlocking...
+21:03:27 - Pausing for 3000 ms
+21:03:30 - Trying to get lock...
+21:03:30 - Prosao saljem poruke
+21:03:30 - Got lock!
+21:03:30 - Pausing for 2000 ms
+21:03:32 - Unlocking...
+21:03:32 - Pausing for 9000 ms
+21:03:41 - Stopping...

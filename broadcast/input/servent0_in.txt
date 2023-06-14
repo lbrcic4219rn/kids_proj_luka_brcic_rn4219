@@ -1,0 +1,4 @@
+info
+broadcast a
+pause 12000
+stop

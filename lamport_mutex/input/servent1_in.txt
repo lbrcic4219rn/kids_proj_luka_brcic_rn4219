@@ -1,0 +1,6 @@
+pause 1000
+distributed_lock
+pause 5000
+distributed_unlock
+pause 14000
+stop

@@ -1,0 +1,5 @@
+info
+pause 2000
+broadcast b
+pause 10000
+stop
