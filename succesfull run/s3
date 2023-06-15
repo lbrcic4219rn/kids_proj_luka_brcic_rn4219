@@ -1,0 +1,190 @@
+C:\Users\Coka\.jdks\corretto-17.0.7\bin\java.exe -javaagent:C:\Users\Coka\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\231.9011.34\lib\idea_rt.jar=52565:C:\Users\Coka\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\231.9011.34\bin -Dfile.encoding=UTF-8 -classpath C:\Users\Coka\IdeaProjects\kids_proj_luka_brcic_rn4219\out\production\kids_proj_luka_brcic_rn4219 app.ServantMain
+21:27:03 - Starting servant [ id: 3 | ipAdress: localhost | port: 1004 | isTokenOwner: false| tokenMessage: null]
+21:27:04 - Sending message [ senderId: 3 | messageId: 0 | messageText: Hi Bootstrap, I would like to enter the system. | messageType: SAY_HI_TO_BOOTSTRAP | receiverId: [BootstrapServer ID]]
+21:27:05 - Got message [ senderId: [BootstrapServer ID] | messageId: 4 | messageText: Hello, You should talk to system node on port 1002 | messageType: BOOTSTRAP_SAYS_HELLO | receiverId: 3]
+21:27:07 - Sending message [ senderId: 3 | messageId: 1 | messageText: Hi system node, bootstrap said I should ask you to enter the system. | messageType: SAY_HI_TO_SYSTEM_NODE | receiverId: -1]
+21:27:07 - Got message [ senderId: 1 | messageId: 6 | messageText: Welcome new node with id 3 | messageType: SYSTEM_NODE_SAYS_WELCOME | receiverId: 3]
+21:27:07 - Great, I'm in the system now. Currently number of nodes in the system is 4
+21:27:08 - Got message [ senderId: 1 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:27:08 - Rebroadcasting... 1
+21:27:09 - Got message [ senderId: 1 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:27:09 - Already had this. No rebroadcast.
+21:27:09 - Sending message [ senderId: 1 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 1]
+21:27:09 - Sending message [ senderId: 1 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 0]
+21:27:09 - Sending message [ senderId: 1 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 2]
+21:27:41 - Got message [ senderId: 0 | messageId: 5 | messageText: 2 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:27:41 - Rebroadcasting... 1
+21:27:42 - Got message [ senderId: 0 | messageId: 5 | messageText: 2 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:27:42 - Already had this. No rebroadcast.
+21:27:42 - Sending message [ senderId: 0 | messageId: 5 | messageText: 2 | messageType: ASK_FOR_TOKEN | receiverId: 2]
+21:27:42 - Sending message [ senderId: 0 | messageId: 5 | messageText: 2 | messageType: ASK_FOR_TOKEN | receiverId: 1]
+21:27:42 - Got message [ senderId: 1 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:27:42 - Rebroadcasting... 1
+21:27:44 - Sending message [ senderId: 1 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 1]
+21:27:44 - Sending message [ senderId: 1 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 0]
+21:27:44 - Sending message [ senderId: 1 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 2]
+21:27:44 - Got message [ senderId: 1 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:27:44 - Already had this. No rebroadcast.
+21:27:45 - Got message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:27:45 - Rebroadcasting... 2
+21:27:45 - Got message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:27:45 - Already had this. No rebroadcast.
+21:27:45 - Sending message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 0]
+21:27:45 - Sending message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 1]
+21:27:46 - Sending message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 2]
+21:27:46 - Sending message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 4]
+21:27:46 - Got message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:27:46 - Already had this. No rebroadcast.
+21:27:47 - Got message [ senderId: 0 | messageId: 7 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:27:47 - Already had this. No rebroadcast.
+info
+21:28:03 - My info: [ id: 3 | ipAdress: localhost | port: 1004 | isTokenOwner: false| tokenMessage: null]
+21:28:03 - Neighbors:
+21:28:03 - 0 2 1 4
+{}
+21:28:12 - Got message [ senderId: 5 | messageId: 1 | messageText: Hi system node, bootstrap said I should ask you to enter the system. | messageType: SAY_HI_TO_SYSTEM_NODE | receiverId: -1]
+21:28:13 - Sending message [ senderId: 3 | messageId: 2 | messageText: 3 | messageType: ASK_FOR_TOKEN | receiverId: 1]
+21:28:13 - Sending message [ senderId: 3 | messageId: 2 | messageText: 3 | messageType: ASK_FOR_TOKEN | receiverId: 0]
+21:28:13 - Sending message [ senderId: 3 | messageId: 2 | messageText: 3 | messageType: ASK_FOR_TOKEN | receiverId: 2]
+21:28:13 - Sending message [ senderId: 3 | messageId: 2 | messageText: 3 | messageType: ASK_FOR_TOKEN | receiverId: 4]
+21:28:14 - Got message [ senderId: 0 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:28:14 - I received the TOKEN I requested.
+21:28:15 - Sending message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 1]
+21:28:15 - Sending message [ senderId: 3 | messageId: 3 | messageText: Welcome new node with id 5 | messageType: SYSTEM_NODE_SAYS_WELCOME | receiverId: 5]
+21:28:15 - Sending message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 0]
+21:28:15 - Sending message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 4]
+21:28:15 - Sending message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 2]
+21:28:15 - Got message [ senderId: 0 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:28:15 - Already had this. No rebroadcast.
+21:28:15 - Got message [ senderId: 0 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:28:15 - Already had this. No rebroadcast.
+21:28:16 - Got message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:28:16 - Got own message back. No rebroadcast.
+21:28:16 - Got message [ senderId: 0 | messageId: 9 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:28:16 - Already had this. No rebroadcast.
+21:28:16 - Got message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:28:16 - Got own message back. No rebroadcast.
+21:28:16 - Got message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:28:16 - Got own message back. No rebroadcast.
+21:28:16 - Got message [ senderId: 3 | messageId: 4 | messageText: New node has arrived, you should update system state. | messageType: NEW_NODE_ARRIVAL | receiverId: 3]
+21:28:16 - Got own message back. No rebroadcast.
+info
+21:28:35 - My info: [ id: 3 | ipAdress: localhost | port: 1004 | isTokenOwner: true| tokenMessage: exists]
+21:28:35 - Neighbors:
+21:28:35 - 0 2 1 4
+{}
+21:32:15 - Got message [ senderId: 0 | messageId: 10 | messageText: 4 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:32:15 - pre
+21:32:15 - posle
+21:32:16 - Sending message [ senderId: 3 | messageId: 6 | messageText:  | messageType: TOKEN | receiverId: 2]
+21:32:16 - Sending message [ senderId: 3 | messageId: 6 | messageText:  | messageType: TOKEN | receiverId: 1]
+21:32:16 - Sending message [ senderId: 3 | messageId: 6 | messageText:  | messageType: TOKEN | receiverId: 4]
+21:32:16 - Got message [ senderId: 0 | messageId: 10 | messageText: 4 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:32:16 - Already had this. No rebroadcast.
+21:32:16 - Sending message [ senderId: 3 | messageId: 6 | messageText:  | messageType: TOKEN | receiverId: 0]
+21:32:17 - Got message [ senderId: 0 | messageId: 10 | messageText: 4 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:32:17 - Already had this. No rebroadcast.
+21:32:17 - Got message [ senderId: 3 | messageId: 6 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:32:17 - Got own message back. No rebroadcast.
+21:32:17 - Got message [ senderId: 0 | messageId: 10 | messageText: 4 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:32:17 - Already had this. No rebroadcast.
+21:32:17 - Got message [ senderId: 3 | messageId: 6 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:32:17 - Got own message back. No rebroadcast.
+21:32:18 - Got message [ senderId: 3 | messageId: 6 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:32:18 - Got own message back. No rebroadcast.
+21:32:18 - Got message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:32:18 - Rebroadcasting... 3
+21:32:18 - Got message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:32:18 - Already had this. No rebroadcast.
+21:32:19 - Sending message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 4]
+21:32:19 - Got message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:32:19 - Already had this. No rebroadcast.
+21:32:19 - Sending message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 2]
+21:32:19 - Sending message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 0]
+21:32:19 - Sending message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 1]
+21:32:20 - Got message [ senderId: 0 | messageId: 11 | messageText: New file has been added. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:32:20 - Already had this. No rebroadcast.
+info
+21:32:43 - My info: [ id: 3 | ipAdress: localhost | port: 1004 | isTokenOwner: false| tokenMessage: exists]
+21:32:43 - Neighbors:
+21:32:43 - 0 2 1 4
+{0=[TestDir\, TestDir\subdir, TestDir\subdir\subdirFile.txt.txt, TestDir\test1.txt]}
+21:33:16 - Got message [ senderId: 5 | messageId: 2 | messageText: 5 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:33:16 - Rebroadcasting... 3
+21:33:16 - Got message [ senderId: 5 | messageId: 2 | messageText: 5 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:33:16 - Already had this. No rebroadcast.
+21:33:16 - Sending message [ senderId: 5 | messageId: 2 | messageText: 5 | messageType: ASK_FOR_TOKEN | receiverId: 4]
+21:33:17 - Got message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:33:17 - Rebroadcasting... 3
+21:33:17 - Sending message [ senderId: 5 | messageId: 2 | messageText: 5 | messageType: ASK_FOR_TOKEN | receiverId: 1]
+21:33:17 - Sending message [ senderId: 5 | messageId: 2 | messageText: 5 | messageType: ASK_FOR_TOKEN | receiverId: 2]
+21:33:17 - Got message [ senderId: 5 | messageId: 2 | messageText: 5 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:33:17 - Already had this. No rebroadcast.
+21:33:17 - Sending message [ senderId: 5 | messageId: 2 | messageText: 5 | messageType: ASK_FOR_TOKEN | receiverId: 0]
+21:33:17 - Sending message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 1]
+21:33:17 - Sending message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 4]
+21:33:18 - Sending message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 2]
+21:33:18 - Sending message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 0]
+21:33:18 - Got message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:33:18 - Already had this. No rebroadcast.
+21:33:19 - Got message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:33:19 - Already had this. No rebroadcast.
+21:33:20 - Got message [ senderId: 0 | messageId: 13 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:33:20 - Already had this. No rebroadcast.
+21:33:20 - Got message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:33:20 - Rebroadcasting... 4
+21:33:21 - Got message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:33:21 - Already had this. No rebroadcast.
+21:33:21 - Sending message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 0]
+21:33:21 - Got message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:33:21 - Already had this. No rebroadcast.
+21:33:22 - Got message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:33:22 - Already had this. No rebroadcast.
+21:33:22 - Sending message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 4]
+21:33:22 - Sending message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 1]
+21:33:22 - Sending message [ senderId: 5 | messageId: 3 | messageText: File has been pulled. | messageType: UPDATE_SYSTEM | receiverId: 2]
+inf
+21:33:47 - Unknown command: inf
+info
+21:33:49 - My info: [ id: 3 | ipAdress: localhost | port: 1004 | isTokenOwner: false| tokenMessage: exists]
+21:33:49 - Neighbors:
+21:33:49 - 0 2 1 4
+{0=[TestDir\, TestDir\subdir, TestDir\subdir\subdirFile.txt.txt], 5=[TestDir\test1.txt]}
+21:35:19 - Got message [ senderId: 0 | messageId: 14 | messageText: 6 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:35:19 - Rebroadcasting... 4
+21:35:20 - Sending message [ senderId: 0 | messageId: 14 | messageText: 6 | messageType: ASK_FOR_TOKEN | receiverId: 2]
+21:35:20 - Sending message [ senderId: 0 | messageId: 14 | messageText: 6 | messageType: ASK_FOR_TOKEN | receiverId: 4]
+21:35:20 - Sending message [ senderId: 0 | messageId: 14 | messageText: 6 | messageType: ASK_FOR_TOKEN | receiverId: 1]
+21:35:21 - Got message [ senderId: 0 | messageId: 14 | messageText: 6 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:35:21 - Already had this. No rebroadcast.
+21:35:22 - Got message [ senderId: 0 | messageId: 14 | messageText: 6 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:35:22 - Already had this. No rebroadcast.
+21:35:23 - Got message [ senderId: 0 | messageId: 14 | messageText: 6 | messageType: ASK_FOR_TOKEN | receiverId: 3]
+21:35:23 - Already had this. No rebroadcast.
+21:35:24 - Got message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:35:24 - Rebroadcasting... 5
+21:35:25 - Sending message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 1]
+21:35:25 - Sending message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 2]
+21:35:26 - Sending message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 0]
+21:35:26 - Got message [ senderId: 5 | messageId: 5 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:35:26 - Rebroadcasting... 4
+21:35:26 - Sending message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 4]
+21:35:27 - Sending message [ senderId: 5 | messageId: 5 | messageText:  | messageType: TOKEN | receiverId: 1]
+21:35:27 - Sending message [ senderId: 5 | messageId: 5 | messageText:  | messageType: TOKEN | receiverId: 0]
+21:35:27 - Sending message [ senderId: 5 | messageId: 5 | messageText:  | messageType: TOKEN | receiverId: 2]
+21:35:27 - Sending message [ senderId: 5 | messageId: 5 | messageText:  | messageType: TOKEN | receiverId: 4]
+21:35:29 - Got message [ senderId: 5 | messageId: 5 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:35:29 - Already had this. No rebroadcast.
+21:35:30 - Got message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:35:30 - Already had this. No rebroadcast.
+21:35:32 - Got message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:35:32 - Already had this. No rebroadcast.
+21:35:33 - Got message [ senderId: 5 | messageId: 5 | messageText:  | messageType: TOKEN | receiverId: 3]
+21:35:33 - Already had this. No rebroadcast.
+21:35:35 - Got message [ senderId: 0 | messageId: 15 | messageText: File has been removed. | messageType: UPDATE_SYSTEM | receiverId: 3]
+21:35:35 - Already had this. No rebroadcast.
+info
+21:36:11 - My info: [ id: 3 | ipAdress: localhost | port: 1004 | isTokenOwner: false| tokenMessage: exists]
+21:36:11 - Neighbors:
+21:36:11 - 0 2 1 4
+{0=[], 5=[TestDir\test1.txt]}

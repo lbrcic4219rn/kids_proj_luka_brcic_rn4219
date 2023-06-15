@@ -1,0 +1,86 @@
+Flow za dodavanje novog cvora u sistem {
+    Novopokrenuti cvor se prvo javlja bootstrapu slanjem poruke HI,
+    Bootstrap prima ovu poruku i odgovara novom cvoru sa porukom u kojoj se sadzi port cvora
+    kome novi treba da se obrati. Novi cvor po prijemu poruke od bootstrapa salje poruku zadatom cvoru.
+    Kada mu cvor odgovori u poruci se snalazi stanje sistema, tada je novi cvor dodat u sistem.
+    Redosled poruka:
+        1) SayHiToBootstrap. novi -> bootstrap
+        2) BootstrapSaysHello. bootstrap -> novi
+        3) SayHiToSystemNode. novi -> cvor
+        4) SystemNodeSaysWelcome. cvor -> novi
+}
+
+Arhitektura {
+    Arhitektura po uzoru na CORD ali pojednostavljena. Svaki cvor ima svog prethodnika i sledbenika.
+    U sistemima koji imaju 5 ili manje cvorova ovaj graf ce biti klika. U opstem slicaju br > 5
+    svaki cvor ima 4 suseda: svog prethodnika, prethodnika svog prethodnika, sledbenika i
+    sledbenika svog sledbenika. Logika za dodavanje novog cvora: Kada sistem ima manje od 5 cvorova
+    je pojednostavljena tako da je svako svakome sused. Kada se dodaje 5. ili vise cvorova. Bira
+    se nasumicno izabran cvor iz sistema koji ce bit prethodnik novom cvoru. Nakon ovoga veze izmedju
+    cvorova se azuriraju.
+}
+
+-welcome msg {
+	novi node primi welcome poruku
+	Ulazi u sistem.
+}
+
+-UpdateSystem msg {
+	Salje se kao broadkast i sadrzi system state. Svaki cvor koji prmi ovu poruku treba da updejtuje svoj system state i da prosledi poruku dalje.
+}
+
+-STORAGE-
+
+1 -ADD_COMMAND {
+	Mutex.Lock
+	Proveravamo da li fajlovi vec postoje u sistemu. Ako fajl postoji Mutex.Unlock.
+	Dodajemo fajl u nase skladiste. Azuriramo mapu u system state.
+    Saljemo brodkast za update sistema cime ce svaki cvor u sistemu dobiti informaciju o novom stanju skladista.
+	Mutex.Unlock
+}
+
+2 -PULL_COMMAND {
+	Mutex.Lock
+	Trazimo fajl u systemState mapi sa stanjem skladista svih cvorova.
+	Kada nadjemo fajl kopiramo ga u nase skladiste i brisemo iz skladista cvora kod koga je fajl originalno bio
+	Saljemo brodkast za update sistema cime ce svaki cvor u sistemu dobiti informaciju o novom stanju skladista.
+	Mutex.Unlock
+}
+
+3 -REMOVE_COMMAND {
+	Mutex.Lock
+	Trazimo u nasoj listi fajlova da li sadrzimio trazeni fajl
+	Brisemo trazeni fajl ili direktorijum iz nase liste kao i fizicki iz memorije svakog cvora.
+	Saljemo brodkast za update sistema cime ce svaki cvor u sistemu dobiti informaciju o novom stanju naseg skladista.
+	Mutex.Unlock
+}
+
+-Suzuki Kasami Mutex-
+
+Svaki cvor u sistemu cuva inforamciju da li se kod njega nalazi token
+Token se cuva u okviru token message.
+Cuvamo RN mapu gde se nalazi broj ulaza u kriticnu sekciju za svaki cvor.
+
+LOCK {
+    Brokastujem token request poruku i cekamo da mi postanemo token owner. Kada stignemo na red token stize do nas i ulazimo u kriticnu sekciju
+}
+
+UNLOCK {
+    izlazimo iz kriticne sekcije i gledamo queue tokena da vidimo da li neko ceka na token. Ako neko ceka na token brokastujemo Token poruku.
+    U koliko niko ne ceka na token proverimo da li je RN = LN + 1. To znaci da je neko u medjuvremenu trazio token dok smo mi bili u kriticnoj sekciji i stavljamo njega u listu cekanja
+    i saljemo token dalje.
+}
+
+1. AskForTokenMessage {
+    Parametar poruke: sm (redni broj zahteva za ulaz u kriticnu sekciju)
+    Saljemo poruku kao brodkast.
+    Kada poruka stigne do cvora, cvor proverava da li je poruka zastarela (sm < rn[id_cvora_koji_trazi_kriticnu_sekciju])
+    Ako se desi da je poruka zastarela ne brodkastujemo je dalje
+    Kada poruka stigne do cvora koji ima token, ali mu je token potreban stavlja trazeci cvor na listu cekanja u tokenu.
+}
+
+2. TokenMessage {
+    Sadrzi red cekanja svih cvorova koji su trazili kriticnu sekciju kao i mapu LN u kojoj se nalazi broj trazenja kriticne sekcije od cvorova u sistemu.
+    Kada token stigne do nas proveravamo da li nam je neophodan. Ako jeste proveravamo da li smo mi prvi na listi cekanja, jesmo ulazimo u kriticnu sekciju; nismo saljemo token dalje.
+    Ako nam token nije neophodan samo ga saljemo nasim susedima.
+}

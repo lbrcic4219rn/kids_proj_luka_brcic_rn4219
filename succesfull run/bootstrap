@@ -1,0 +1,15 @@
+C:\Users\Coka\.jdks\corretto-17.0.7\bin\java.exe -javaagent:C:\Users\Coka\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\231.9011.34\lib\idea_rt.jar=52533:C:\Users\Coka\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\231.9011.34\bin -Dfile.encoding=UTF-8 -classpath C:\Users\Coka\IdeaProjects\kids_proj_luka_brcic_rn4219\out\production\kids_proj_luka_brcic_rn4219 app.BootstrapServer
+21:26:10 - Bootstrap server started on port: 1000
+21:26:22 - Bootstrap server received message: [ senderId: 0 | messageId: 0 | messageText: Hi Bootstrap, I would like to enter the system. | messageType: SAY_HI_TO_BOOTSTRAP | receiverId: [BootstrapServer ID]]
+21:26:23 - Sending message [ senderId: [BootstrapServer ID] | messageId: 1 | messageText: Welcome new node with id 0 | messageType: SYSTEM_NODE_SAYS_WELCOME | receiverId: 0]
+21:26:31 - Bootstrap server received message: [ senderId: 1 | messageId: 0 | messageText: Hi Bootstrap, I would like to enter the system. | messageType: SAY_HI_TO_BOOTSTRAP | receiverId: [BootstrapServer ID]]
+21:26:32 - Sending message [ senderId: [BootstrapServer ID] | messageId: 2 | messageText: Hello, You should talk to system node on port 1001 | messageType: BOOTSTRAP_SAYS_HELLO | receiverId: 1]
+21:26:41 - Bootstrap server received message: [ senderId: 2 | messageId: 0 | messageText: Hi Bootstrap, I would like to enter the system. | messageType: SAY_HI_TO_BOOTSTRAP | receiverId: [BootstrapServer ID]]
+21:26:42 - Sending message [ senderId: [BootstrapServer ID] | messageId: 3 | messageText: Hello, You should talk to system node on port 1002 | messageType: BOOTSTRAP_SAYS_HELLO | receiverId: 2]
+21:27:04 - Bootstrap server received message: [ senderId: 3 | messageId: 0 | messageText: Hi Bootstrap, I would like to enter the system. | messageType: SAY_HI_TO_BOOTSTRAP | receiverId: [BootstrapServer ID]]
+21:27:05 - Sending message [ senderId: [BootstrapServer ID] | messageId: 4 | messageText: Hello, You should talk to system node on port 1002 | messageType: BOOTSTRAP_SAYS_HELLO | receiverId: 3]
+21:27:38 - Bootstrap server received message: [ senderId: 4 | messageId: 0 | messageText: Hi Bootstrap, I would like to enter the system. | messageType: SAY_HI_TO_BOOTSTRAP | receiverId: [BootstrapServer ID]]
+21:27:39 - Sending message [ senderId: [BootstrapServer ID] | messageId: 5 | messageText: Hello, You should talk to system node on port 1001 | messageType: BOOTSTRAP_SAYS_HELLO | receiverId: 4]
+21:28:10 - Bootstrap server received message: [ senderId: 5 | messageId: 0 | messageText: Hi Bootstrap, I would like to enter the system. | messageType: SAY_HI_TO_BOOTSTRAP | receiverId: [BootstrapServer ID]]
+21:28:11 - Sending message [ senderId: [BootstrapServer ID] | messageId: 6 | messageText: Hello, You should talk to system node on port 1004 | messageType: BOOTSTRAP_SAYS_HELLO | receiverId: 5]
+info

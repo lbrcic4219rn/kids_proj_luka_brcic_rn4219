@@ -1,7 +1,6 @@
 package mutex;
 
 public interface DistributedMutex {
-
-	void lock();
-	void unlock();
+    void lock();
+    void unlock();
 }

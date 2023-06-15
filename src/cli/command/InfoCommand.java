@@ -1,24 +1,23 @@
 package cli.command;
 
 import app.AppConfig;
+import app.ServantInfo;
 
-public class InfoCommand implements CLICommand {
+public class InfoCommand extends CLICommand {
+    public InfoCommand() {
+        super("info");
+    }
 
-	@Override
-	public String commandName() {
-		return "info";
-	}
+    @Override
+    public void execute(String args) {
+        AppConfig.timestampedStandardPrint("My info: " + AppConfig.myServantInfo);
+        AppConfig.timestampedStandardPrint("Neighbors:");
+        String neighbors = "";
+        for (ServantInfo neighbor : AppConfig.myServantInfo.getNeighbours()) {
+            neighbors += neighbor.getId() + " ";
+        }
 
-	@Override
-	public void execute(String args) {
-		AppConfig.timestampedStandardPrint("My info: " + AppConfig.myServentInfo);
-		AppConfig.timestampedStandardPrint("Neighbors:");
-		String neighbors = "";
-		for (Integer neighbor : AppConfig.myServentInfo.getNeighbors()) {
-			neighbors += neighbor + " ";
-		}
-		
-		AppConfig.timestampedStandardPrint(neighbors);
-	}
-
+        AppConfig.timestampedStandardPrint(neighbors);
+        System.out.println((AppConfig.systemState.getFileListMap()));
+    }
 }
