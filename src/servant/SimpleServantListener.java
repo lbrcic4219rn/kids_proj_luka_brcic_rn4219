@@ -7,7 +7,10 @@ import servant.handler.MessageHandler;
 import servant.handler.add_new_node_messages.BootstrapSaysHelloHandler;
 import servant.handler.add_new_node_messages.SayHiToSystemNodeHandler;
 import servant.handler.add_new_node_messages.SystemNodeSaysWelcomeHandler;
-import servant.handler.broadcast_messages.*;
+import servant.handler.broadcast_messages.AddFileHandler;
+import servant.handler.broadcast_messages.DeleteFileHandler;
+import servant.handler.broadcast_messages.SystemIsUpdatedHandler;
+import servant.handler.broadcast_messages.UpdateSystemHandler;
 import servant.handler.health_check_messages.IsOkHandler;
 import servant.handler.health_check_messages.NotOkHandler;
 import servant.handler.health_check_messages.OkHandler;
@@ -22,6 +25,7 @@ import servant.message.add_new_node_messages.SayHiToSystemNode;
 import servant.message.add_new_node_messages.SystemNodeSaysWelcome;
 import servant.message.broadcast_messages.UpdateSystem;
 import servant.message.util.MessageUtil;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -29,9 +33,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SimpleServantListener implements Runnable, Cancellable {
+    private final ExecutorService threadPool = Executors.newWorkStealingPool();
     private volatile boolean working = true;
     private DistributedMutex mutex;
-    private final ExecutorService threadPool = Executors.newWorkStealingPool();
 
     public SimpleServantListener(DistributedMutex mutex) {
         this.mutex = mutex;
@@ -53,7 +57,7 @@ public class SimpleServantListener implements Runnable, Cancellable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        while(working) {
+        while (working) {
             try {
                 Socket clientSocket = listenerSocket.accept();
                 Message clientMessage = MessageUtil.readMessage(clientSocket);
@@ -63,6 +67,7 @@ public class SimpleServantListener implements Runnable, Cancellable {
             }
         }
     }
+
     private MessageHandler getHandler(Message clientMessage) {
         // * Note - Nemamo SayHiToBootstrapHandler zato sto se to direktno obradjuje u BootstrapServer-u.
         return switch (clientMessage.getMessageType()) {
@@ -84,6 +89,7 @@ public class SimpleServantListener implements Runnable, Cancellable {
             default -> null;
         };
     }
+
     @Override
     public void stop() {
         this.working = false;

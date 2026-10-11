@@ -17,15 +17,15 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AskForTokenHandler implements MessageHandler {
+    private static Set<Message> receivedBroadcasts = Collections.newSetFromMap(new ConcurrentHashMap<Message, Boolean>());
     private final Message clientMessage;
     private SuzukiKasamiDistributedMutex mutex;
-    private static Set<Message> receivedBroadcasts = Collections.newSetFromMap(new ConcurrentHashMap<Message, Boolean>());
 
     public AskForTokenHandler(Message clientMessage, DistributedMutex mutex) {
         this.clientMessage = clientMessage;
-        if(mutex instanceof SuzukiKasamiDistributedMutex){
+        if (mutex instanceof SuzukiKasamiDistributedMutex) {
             this.mutex = (SuzukiKasamiDistributedMutex) mutex;
-        } else{
+        } else {
             AppConfig.timestampedErrorPrint("Error in AskForTokenHandler. Mutex is not Suzuki-Kasami.");
         }
     }
@@ -56,18 +56,18 @@ public class AskForTokenHandler implements MessageHandler {
             //Try to put in the set. Thread safe add ftw.
             boolean didPut = receivedBroadcasts.add(clientMessage);
             if (didPut) {
-                Map<ServantInfo, Integer> rn =  AppConfig.myServantInfo.getRnMap();
+                Map<ServantInfo, Integer> rn = AppConfig.myServantInfo.getRnMap();
                 AskForToken askForTokenRequest;
 
                 // Redudantna provera
-                if(clientMessage.getMessageType() != MessageType.ASK_FOR_TOKEN) {
+                if (clientMessage.getMessageType() != MessageType.ASK_FOR_TOKEN) {
                     AppConfig.timestampedErrorPrint("Expected message type ASK_FOR_TOKEN.");
                     return;
                 }
                 askForTokenRequest = (AskForToken) clientMessage;
                 rn.putIfAbsent(senderInfo, 0);
 
-                if(askForTokenRequest.getSm() > rn.get(senderInfo)) {
+                if (askForTokenRequest.getSm() > rn.get(senderInfo)) {
                     AppConfig.myServantInfo.getRnMap().put(senderInfo, askForTokenRequest.getSm());
                 } else {
                     return;
@@ -75,8 +75,8 @@ public class AskForTokenHandler implements MessageHandler {
 
 
                 // Mozemo garantovati da ce svaki cvor dobiti ovu poruku kako svaki cvor ima 4 suseda
-                if(AppConfig.myServantInfo.isTokenOwner()) {
-                    if(this.mutex.getDistributedMutexInitiated().get()) { //Meni treba mutex.
+                if (AppConfig.myServantInfo.isTokenOwner()) {
+                    if (this.mutex.getDistributedMutexInitiated().get()) { //Meni treba mutex.
                         //stavi u queue
                         AppConfig.myServantInfo.getToken().getQueue().add(senderInfo);
                     } else {
@@ -89,7 +89,7 @@ public class AskForTokenHandler implements MessageHandler {
                         AppConfig.timestampedErrorPrint("pre");
                         AppConfig.myServantInfo.setTokenOwner(false);
                         AppConfig.timestampedErrorPrint("posle");
-                        if(AppConfig.myServantInfo.getToken().getQueue().peek() == null) { // OVAJ IF DODAT-PROVERITI!
+                        if (AppConfig.myServantInfo.getToken().getQueue().peek() == null) { // OVAJ IF DODAT-PROVERITI!
                             tokenMessage.getQueue().add((ServantInfo) this.clientMessage.getOriginalSenderInfo()); //OVA LINIJA DODATA-PROVERITI!
                         }
                         for (ServantInfo neighbour : AppConfig.myServantInfo.getNeighbours()) {
@@ -102,7 +102,7 @@ public class AskForTokenHandler implements MessageHandler {
                 AppConfig.timestampedStandardPrint("Rebroadcasting... " + receivedBroadcasts.size());
                 for (ServantInfo neighbour : AppConfig.myServantInfo.getNeighbours()) {
                     // Ovaj if postoji zato sto ne zelimo da saljemo istu poruku od onoga od koga smo je primili.
-                    if(neighbour.getId() == ((ServantInfo)this.clientMessage.getOriginalSenderInfo()).getId()) {
+                    if (neighbour.getId() == ((ServantInfo) this.clientMessage.getOriginalSenderInfo()).getId()) {
                         continue;
                     }
                     MessageUtil.sendMessage(clientMessage.changeReceiver(neighbour.getId()).makeMeASender());

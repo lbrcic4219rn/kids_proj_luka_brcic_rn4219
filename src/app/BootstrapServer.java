@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Kod nas će ip adresa uvek biti localhost. Bootstrap će se uvek vrteti na portu 1000. To je port rezervisan za njega.
@@ -41,6 +40,12 @@ public class BootstrapServer implements Receiver, Sender, Serializable {
         return instance;
     }
 
+    public static void main(String[] args) {
+        BootstrapServer bs = getInstance();
+        AppConfig.timestampedStandardPrint("Bootstrap server started on port: " + bs.getPort());
+        bs.startBootstrapServer();
+    }
+
     @Override
     public String getIpAddress() {
         return this.ipAddress;
@@ -49,25 +54,6 @@ public class BootstrapServer implements Receiver, Sender, Serializable {
     @Override
     public int getPort() {
         return this.port;
-    }
-
-    private class CLIWorker implements Runnable {
-        @Override
-        public void run() {
-            Scanner sc = new Scanner(System.in);
-
-            String line;
-            while (true) {
-                line = sc.nextLine();
-
-                if (line.equals("stop")) {
-                    working = false;
-                    break;
-                }
-            }
-
-            sc.close();
-        }
     }
 
     public void startBootstrapServer() {
@@ -136,16 +122,29 @@ public class BootstrapServer implements Receiver, Sender, Serializable {
         }
     }
 
-    public static void main(String[] args) {
-        BootstrapServer bs = getInstance();
-        AppConfig.timestampedStandardPrint("Bootstrap server started on port: " + bs.getPort());
-        bs.startBootstrapServer();
-    }
-
     private int chooseRandomPortFromList() {
         Random random = new Random();
         int listSize = activeServantsPorts.size();
         int randomIndex = random.nextInt(listSize);
         return activeServantsPorts.get(randomIndex);
+    }
+
+    private class CLIWorker implements Runnable {
+        @Override
+        public void run() {
+            Scanner sc = new Scanner(System.in);
+
+            String line;
+            while (true) {
+                line = sc.nextLine();
+
+                if (line.equals("stop")) {
+                    working = false;
+                    break;
+                }
+            }
+
+            sc.close();
+        }
     }
 }

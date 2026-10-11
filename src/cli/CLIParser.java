@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CLIParser implements Runnable, Cancellable {
-    private volatile boolean working = true;
     private final List<CLICommand> commandList;
+    private volatile boolean working = true;
+
     public CLIParser(SimpleServantListener listener, List<DelayedMessageSender> senderThreads, DistributedMutex mutex) {
         this.commandList = new ArrayList<>();
 
@@ -37,7 +38,7 @@ public class CLIParser implements Runnable, Cancellable {
             String commandArgs = null;
             if (spacePos != -1) {
                 commandName = commandLine.substring(0, spacePos);
-                commandArgs = commandLine.substring(spacePos+1, commandLine.length());
+                commandArgs = commandLine.substring(spacePos + 1, commandLine.length());
             } else {
                 commandName = commandLine;
             }

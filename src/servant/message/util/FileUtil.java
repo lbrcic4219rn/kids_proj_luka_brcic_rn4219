@@ -18,9 +18,9 @@ public class FileUtil {
         Map<Integer, List<String>> fileListMap = AppConfig.systemState.getFileListMap();
         for (Integer key : fileListMap.keySet()) {
             List<String> fileList = fileListMap.get(key);
-            if(fileList != null) {
-                for(String s: fileList){
-                    if(s.equals(path))
+            if (fileList != null) {
+                for (String s : fileList) {
+                    if (s.equals(path))
                         result = true;
                 }
             }
@@ -35,7 +35,7 @@ public class FileUtil {
 
         List<String> fileList = fileListMap.get(myId);
 
-        if(fileList == null) fileList = new ArrayList<String>();
+        if (fileList == null) fileList = new ArrayList<String>();
 
         File file = new File(absPath);
 
@@ -47,7 +47,7 @@ public class FileUtil {
         Path targetDir = Path.of(AppConfig.myServantInfo.getRootDir());
         Path sourcePath = Path.of(absPath);
 
-        if(!file.isDirectory()) {
+        if (!file.isDirectory()) {
             try {
                 fileList.add(fileName);
 
@@ -97,7 +97,7 @@ public class FileUtil {
     }
 
     public static void deleteFile(String args, Integer id) {
-        Path fileOrFolderPath = Path.of(AppConfig.myServantInfo.getRootDir().substring(0, AppConfig.myServantInfo.getRootDir().length() -1) + id + "\\" + args);
+        Path fileOrFolderPath = Path.of(AppConfig.myServantInfo.getRootDir().substring(0, AppConfig.myServantInfo.getRootDir().length() - 1) + id + "\\" + args);
         Map<Integer, List<String>> fileListMap = AppConfig.systemState.getFileListMap();
         List<String> fileList = fileListMap.get(id);
 

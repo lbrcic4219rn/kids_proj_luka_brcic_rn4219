@@ -9,11 +9,18 @@ import java.util.List;
 
 public interface Message extends Serializable {
     Sender getOriginalSenderInfo();
+
     List<ServantInfo> getRoute();
+
     Receiver getReceiverInfo();
+
     MessageType getMessageType();
+
     String getMessageText();
+
     int getMessageId();
+
     Message makeMeASender();
+
     Message changeReceiver(Integer newReceiverId);
 }

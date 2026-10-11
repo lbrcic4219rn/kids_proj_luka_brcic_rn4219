@@ -14,11 +14,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class MessageUtil {
     public static Map<Integer, BlockingQueue<Message>> pendingMessages = new ConcurrentHashMap<>();
+
     public static void initializePendingMessages() {
-        for(ServantInfo neighbour : AppConfig.myServantInfo.getNeighbours()) {
+        for (ServantInfo neighbour : AppConfig.myServantInfo.getNeighbours()) {
             pendingMessages.put(neighbour.getId(), new LinkedBlockingQueue<>());
         }
     }
+
     public static Message readMessage(Socket socket) {
         Message clientMessage = null;
         ObjectInputStream ois;
@@ -34,6 +36,7 @@ public class MessageUtil {
         AppConfig.timestampedStandardPrint("Got message " + clientMessage);
         return clientMessage;
     }
+
     public static void sendMessage(Message message) {
         Thread delayedSender = new Thread(new DelayedMessageSender(message));
         delayedSender.start();

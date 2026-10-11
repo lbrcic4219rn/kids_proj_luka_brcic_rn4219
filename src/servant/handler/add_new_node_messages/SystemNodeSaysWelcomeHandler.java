@@ -27,7 +27,7 @@ public class SystemNodeSaysWelcomeHandler implements MessageHandler {
         // Ovde treba update-ovati node koji je primio ovu poruku, pomocu trenutnog stanja sistema iz poruke.
         // Node koji je primio ovu poruku je novi node koji je tek ukljucen u sistem.
         ServantInfo receiver = (ServantInfo) this.message.getReceiverInfo();
-        if(receiver.getId() != AppConfig.myServantInfo.getId()) { // Samo provera. Moze biti uklonjeno kasnije.
+        if (receiver.getId() != AppConfig.myServantInfo.getId()) { // Samo provera. Moze biti uklonjeno kasnije.
             AppConfig.timestampedErrorPrint("This node received message but he is not intended to.");
             return;
         }

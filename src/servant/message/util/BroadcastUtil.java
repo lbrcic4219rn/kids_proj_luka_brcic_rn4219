@@ -9,13 +9,14 @@ import java.util.List;
 
 public class BroadcastUtil {
     public static void sendBroadcastMessage(List<ServantInfo> neighbours, Message message) {
-        for(ServantInfo neighbour: neighbours) {
+        for (ServantInfo neighbour : neighbours) {
             MessageUtil.sendMessage(message.changeReceiver(neighbour.getId()).makeMeASender());
         }
     }
+
     public static void sendBroadcastMessageAndExcludeNodeWithId(List<ServantInfo> neighbours, Message message, int excludeId) {
-        for(ServantInfo neighbour: neighbours) {
-            if(neighbour.getId() == excludeId) {
+        for (ServantInfo neighbour : neighbours) {
+            if (neighbour.getId() == excludeId) {
                 continue;
             }
             MessageUtil.sendMessage(message.changeReceiver(neighbour.getId()).makeMeASender());

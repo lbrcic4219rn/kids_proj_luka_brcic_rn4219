@@ -9,7 +9,7 @@ import servant.message.util.MessageUtil;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class SuzukiKasamiDistributedMutex implements DistributedMutex{
+public class SuzukiKasamiDistributedMutex implements DistributedMutex {
     private AtomicBoolean distributedMutexInitiated = new AtomicBoolean(false);
     private AtomicLong timeStamp;
 
@@ -18,11 +18,11 @@ public class SuzukiKasamiDistributedMutex implements DistributedMutex{
 
     }
 
-    public void updateTimeStamp(long newTimeStamp){
+    public void updateTimeStamp(long newTimeStamp) {
         long currentTimeStamp = timeStamp.get();
 
-        while(newTimeStamp > currentTimeStamp){
-            if(timeStamp.compareAndSet(currentTimeStamp, newTimeStamp+1)){
+        while (newTimeStamp > currentTimeStamp) {
+            if (timeStamp.compareAndSet(currentTimeStamp, newTimeStamp + 1)) {
                 break;
             }
             currentTimeStamp = timeStamp.get();
@@ -31,25 +31,25 @@ public class SuzukiKasamiDistributedMutex implements DistributedMutex{
 
     @Override
     public void lock() {
-        while (!distributedMutexInitiated.compareAndSet(false, true)){
+        while (!distributedMutexInitiated.compareAndSet(false, true)) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if(!AppConfig.myServantInfo.isTokenOwner()) {
+        if (!AppConfig.myServantInfo.isTokenOwner()) {
             AskForToken askForTokenRequest = new AskForToken(AppConfig.myServantInfo,
                     null, timeStamp.get(), AppConfig.myServantInfo.getSm().incrementAndGet());
 
-            for(ServantInfo neighbour: AppConfig.myServantInfo.getNeighbours()) {
+            for (ServantInfo neighbour : AppConfig.myServantInfo.getNeighbours()) {
                 MessageUtil.sendMessage(askForTokenRequest.changeReceiver(neighbour.getId()).makeMeASender());
             }
         }
 
 
-        while(true){
-            if(AppConfig.myServantInfo.isTokenOwner()){
+        while (true) {
+            if (AppConfig.myServantInfo.isTokenOwner()) {
                 break;
             }
             try {
@@ -68,7 +68,7 @@ public class SuzukiKasamiDistributedMutex implements DistributedMutex{
         //Azuriramo tokenovu mapu sa brojem poziva koje smo izvrsili
         token.getLnMap().put(AppConfig.myServantInfo, AppConfig.myServantInfo.getRnMap().get(AppConfig.myServantInfo));
 
-        if(token.getQueue().peek() == null) token.getQueue().add(AppConfig.myServantInfo);
+        if (token.getQueue().peek() == null) token.getQueue().add(AppConfig.myServantInfo);
         token.getQueue().remove();
 
         TokenMessage tokenMessage = new TokenMessage(AppConfig.myServantInfo,
@@ -76,15 +76,15 @@ public class SuzukiKasamiDistributedMutex implements DistributedMutex{
 
         AppConfig.myServantInfo.getRnMap().forEach((key, value) -> {
             token.getLnMap().putIfAbsent(key, 0);
-            if(value == token.getLnMap().get(key) + 1) {
+            if (value == token.getLnMap().get(key) + 1) {
                 token.getQueue().add(key);
             }
         });
 
-        if(token.getQueue().peek() != null) {
+        if (token.getQueue().peek() != null) {
             AppConfig.timestampedErrorPrint("unlock");
             AppConfig.myServantInfo.setTokenOwner(false);
-            for(ServantInfo neighbour: AppConfig.myServantInfo.getNeighbours()) {
+            for (ServantInfo neighbour : AppConfig.myServantInfo.getNeighbours()) {
                 MessageUtil.sendMessage(tokenMessage.changeReceiver(neighbour.getId()).makeMeASender());
             }
         }

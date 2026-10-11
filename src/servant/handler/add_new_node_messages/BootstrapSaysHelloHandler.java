@@ -12,9 +12,11 @@ import servant.message.util.MessageUtil;
 // Ovaj handler znaci: sta se radi kada se primi poruka BootstrapSaysHelloHandler.
 public class BootstrapSaysHelloHandler implements MessageHandler {
     private BootstrapSaysHello message;
+
     public BootstrapSaysHelloHandler(BootstrapSaysHello message) {
         this.message = message;
     }
+
     @Override
     public void run() {
         try {

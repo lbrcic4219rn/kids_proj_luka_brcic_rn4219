@@ -6,7 +6,10 @@ import servant.message.BasicMessage;
 import servant.message.Message;
 import servant.message.MessageType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * U tokenu se šalje queue(red čekanja svih zahteva za token - za sve čvorove) i mapu gde postoji entry za svaki čvor:
@@ -14,7 +17,8 @@ import java.util.*;
  * Može da se šalje kao broadcast poruka - na taj način ćemo biti sigurno da je token stigao do onog čvora koji ga je zahtevao.
  * Može da se šalje ne kao broadcast poruka, već da čvor koji šalje token nekim algoritmom izračuna putanju kojom će slati
  * token do čvora koji ga je zahtevao.
- * */
+ *
+ */
 public class TokenMessage extends BasicMessage {
     private Map<ServantInfo, Integer> lnMap;
     private Queue<ServantInfo> queue;
@@ -24,6 +28,7 @@ public class TokenMessage extends BasicMessage {
         this.queue = queue;
         this.lnMap = lnMap;
     }
+
     public TokenMessage(ServantInfo originalSenderInfo, ServantInfo receiverInfo,
                         List<ServantInfo> routeList, String messageText, int messageId, Map<ServantInfo, Integer> lnMap, Queue<ServantInfo> queue) {
         super(MessageType.TOKEN, originalSenderInfo, receiverInfo, routeList, messageText, messageId);

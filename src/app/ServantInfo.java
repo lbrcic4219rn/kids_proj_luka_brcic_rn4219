@@ -2,7 +2,6 @@ package app;
 
 import servant.message.mutex_messages.TokenMessage;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,13 +65,16 @@ public class ServantInfo implements Receiver, Sender, Serializable {
     public String getIpAddress() {
         return this.ipAddress;
     }
+
     @Override
     public int getPort() {
         return this.listenerPort;
     }
+
     public int getId() {
         return this.id;
     }
+
     public List<ServantInfo> getNeighbours() {
         return neighbours;
     }
@@ -128,10 +130,10 @@ public class ServantInfo implements Receiver, Sender, Serializable {
     @Override
     public String toString() {
         String tmPrint = "null";
-        if(tokenMessage != null) {
+        if (tokenMessage != null) {
             tmPrint = "exists";
         }
-        return "[ id: " + id + " | ipAdress: " + ipAddress + " | port: " + listenerPort + " | isTokenOwner: " + tokenOwner + "| tokenMessage: " + tmPrint +  "]";
+        return "[ id: " + id + " | ipAdress: " + ipAddress + " | port: " + listenerPort + " | isTokenOwner: " + tokenOwner + "| tokenMessage: " + tmPrint + "]";
     }
 
     public String getRootDir() {

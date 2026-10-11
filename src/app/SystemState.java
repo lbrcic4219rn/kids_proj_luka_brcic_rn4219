@@ -8,33 +8,37 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
     private Map<Integer, ServantInfo> predecessorMap = new HashMap<>(); // key - node id, value - prethodnik tog node-a
     private Map<Integer, ServantInfo> successorMap = new HashMap<>(); // key - node id, value - sledbenik tog node-a
     private Map<Integer, List<String>> fileListMap = new HashMap<>();
+
     public ServantInfo createNewServantInfo(int servantId) {
         int portNumber = servantId + 1001; // Portovi za čvorove sistema će ići od 1001 do 2000 (port 1000 je rezervisan za bootstrap node).
-        return  new ServantInfo("localhost", servantId, portNumber);
+        return new ServantInfo("localhost", servantId, portNumber);
     }
 
     public ServantInfo getInfoById(int id) {
-        for(ServantInfo info: allNodeInfo) {
-            if(info.getId() == id) {
+        for (ServantInfo info : allNodeInfo) {
+            if (info.getId() == id) {
                 return info;
             }
         }
         AppConfig.timestampedErrorPrint("Node with id " + id + " has not been found.");
         return null;
     }
+
     public ServantInfo getInfoOfServantOnPort(int port) {
-        for(ServantInfo servantInfo: allNodeInfo) {
-            if(servantInfo.getPort() == port) {
+        for (ServantInfo servantInfo : allNodeInfo) {
+            if (servantInfo.getPort() == port) {
                 return servantInfo;
             }
         }
         return null;
     }
+
     public int getServantCount() {
         return allNodeInfo.size();
     }
+
     public void addNewNodeInSystem(ServantInfo newNode) {
-        if(allNodeInfo.size() < 4) {
+        if (allNodeInfo.size() < 4) {
             this.addNewNodeInSystemWhenThereIsLessThan4Nodes(newNode);
             return;
         }
@@ -69,7 +73,7 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
         allNodeInfo.remove(chosenNode);
         allNodeInfo.remove(oldSuccessor);
 
-        if(allNodeInfo.size() + 2 >= 5) {
+        if (allNodeInfo.size() + 2 >= 5) {
             // 1. Ukidamo vezu izmedju chosenNode-a i sledbenika njegovog bivseg sledbenika.
             chosenNode.getNeighbours().remove(oldSuccessor.getSuccessor()); // ovaj remove je potencijalno problem; mozda cemo morati nesto preko id-a.
             oldSuccessor.getSuccessor().getNeighbours().remove(chosenNode); // ovaj remove je potencijalno problem; mozda cemo morati nesto preko id-a.
@@ -108,14 +112,14 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
     }
 
     private void addNewNodeInSystemWhenThereIsLessThan4Nodes(ServantInfo newNode) {
-        if(allNodeInfo.size() == 0) { // Ako je sistem prazan (jos nema nijedan node u sistemu).
+        if (allNodeInfo.size() == 0) { // Ako je sistem prazan (jos nema nijedan node u sistemu).
             successorMap.put(newNode.getId(), null);
             predecessorMap.put(newNode.getId(), null);
             allNodeInfo.add(newNode);
             return;
         }
         ServantInfo chosenNode = allNodeInfo.get(0);
-        if(allNodeInfo.size() == 1) { // To znaci da nam je trenutno chosen node jedini node u sistemu i da ce ovaj koji dodajemo biti drugi.
+        if (allNodeInfo.size() == 1) { // To znaci da nam je trenutno chosen node jedini node u sistemu i da ce ovaj koji dodajemo biti drugi.
             successorMap.put(chosenNode.getId(), newNode);
             predecessorMap.put(newNode.getId(), chosenNode);
 
@@ -133,8 +137,8 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
             allNodeInfo.add(newNode);
             return;
         }
-        if(allNodeInfo.size() == 2) { // Ima ih 2, dodajemo treceg.
-            successorMap.put(chosenNode.getId(),newNode);
+        if (allNodeInfo.size() == 2) { // Ima ih 2, dodajemo treceg.
+            successorMap.put(chosenNode.getId(), newNode);
             predecessorMap.put(chosenNode.getId(), chosenNode.getSuccessor());
             successorMap.put(newNode.getId(), chosenNode.getSuccessor());
             predecessorMap.put(newNode.getId(), chosenNode);
@@ -162,7 +166,7 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
             allNodeInfo.add(newNode);
             return;
         }
-        if(allNodeInfo.size() == 3) {
+        if (allNodeInfo.size() == 3) {
             successorMap.put(chosenNode.getId(), newNode);
             predecessorMap.put(newNode.getId(), chosenNode);
             successorMap.put(newNode.getId(), chosenNode.getSuccessor());

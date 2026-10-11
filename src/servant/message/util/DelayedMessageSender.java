@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class DelayedMessageSender implements Runnable{
+public class DelayedMessageSender implements Runnable {
     private Message messageToSend;
 
     public DelayedMessageSender(Message messageToSend) {
@@ -18,7 +18,7 @@ public class DelayedMessageSender implements Runnable{
     @Override
     public void run() {
         try {
-            Thread.sleep((long)(Math.random() * 1000) + 500);
+            Thread.sleep((long) (Math.random() * 1000) + 500);
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }

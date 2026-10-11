@@ -15,23 +15,22 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TokenMessageHandler implements MessageHandler {
+    private static Set<Message> receivedBroadcasts = Collections.newSetFromMap(new ConcurrentHashMap<Message, Boolean>());
     private final Message clientMessage;
     private SuzukiKasamiDistributedMutex mutex;
-    private static Set<Message> receivedBroadcasts = Collections.newSetFromMap(new ConcurrentHashMap<Message, Boolean>());
 
     public TokenMessageHandler(Message clientMessage, DistributedMutex mutex) {
         this.clientMessage = clientMessage;
-        if(mutex instanceof SuzukiKasamiDistributedMutex){
+        if (mutex instanceof SuzukiKasamiDistributedMutex) {
             this.mutex = (SuzukiKasamiDistributedMutex) mutex;
-        }
-        else{
+        } else {
             AppConfig.timestampedErrorPrint("Mutex is not Suzuki Kasami.");
         }
     }
 
     @Override
     public void run() {
-        try{
+        try {
             this.handle();
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,13 +58,13 @@ public class TokenMessageHandler implements MessageHandler {
                 TokenMessage tokenMessage;
 
                 // Redudantna provera
-                if(clientMessage.getMessageType() != MessageType.TOKEN) {
+                if (clientMessage.getMessageType() != MessageType.TOKEN) {
                     AppConfig.timestampedStandardPrint("Expected type of message is TOKEN.");
                     return;
                 }
                 tokenMessage = (TokenMessage) clientMessage;
                 // Da li je za nas namenjen token
-                if(tokenMessage.getQueue().peek().getId() == AppConfig.myServantInfo.getId()) {
+                if (tokenMessage.getQueue().peek().getId() == AppConfig.myServantInfo.getId()) {
                     AppConfig.myServantInfo.setTokenOwner(true);
                     AppConfig.myServantInfo.setToken(tokenMessage);
                     AppConfig.timestampedStandardPrint("I received the TOKEN I requested.");

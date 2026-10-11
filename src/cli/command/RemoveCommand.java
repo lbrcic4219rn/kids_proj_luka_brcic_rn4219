@@ -11,9 +11,10 @@ import servant.message.util.FileUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoveCommand extends CLICommand{
+public class RemoveCommand extends CLICommand {
 
     private SuzukiKasamiDistributedMutex mutex;
+
     public RemoveCommand(DistributedMutex mutex) {
         super("remove");
         this.mutex = (SuzukiKasamiDistributedMutex) mutex;
@@ -30,7 +31,7 @@ public class RemoveCommand extends CLICommand{
         this.mutex.lock();
         Integer myId = AppConfig.myServantInfo.getId();
         List<String> fileList = AppConfig.systemState.getFileListMap().get(myId);
-        if(fileList == null) {
+        if (fileList == null) {
             AppConfig.timestampedStandardPrint("no such file");
             this.mutex.unlock();
         }
@@ -49,7 +50,7 @@ public class RemoveCommand extends CLICommand{
             FileUtil.deleteFile(fileToDelete, myId);
         }
 
-        if(!fileFound) {
+        if (!fileFound) {
             System.out.println("no such file or folder");
             this.mutex.unlock();
         }

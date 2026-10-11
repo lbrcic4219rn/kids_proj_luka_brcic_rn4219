@@ -8,17 +8,16 @@ import servant.message.Message;
 import servant.message.MessageType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class UpdateSystem extends BasicMessage {
     private SystemState currentSystemState;
+
     public UpdateSystem(MessageType type, ServantInfo originalSenderInfo, ServantInfo receiverInfo, List<ServantInfo> routeList, String messageText, int messageId, SystemState currentSystemState) {
         super(type, originalSenderInfo, receiverInfo, routeList, messageText, messageId);
         this.currentSystemState = currentSystemState;
     }
+
     public UpdateSystem(MessageType type, ServantInfo originalSenderInfo, ServantInfo receiverInfo, String messageText, SystemState currentSystemState) {
         super(type, originalSenderInfo, receiverInfo, messageText);
         this.currentSystemState = currentSystemState;

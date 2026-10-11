@@ -30,7 +30,7 @@ public class AppConfig {
         try {
             properties.load(new FileInputStream("nodes.properties"));
             int id = Integer.parseInt(properties.getProperty("servant_count"));
-            properties.setProperty("servant_count", String.valueOf(id+1));
+            properties.setProperty("servant_count", String.valueOf(id + 1));
             FileOutputStream fileOutputStream = new FileOutputStream("nodes.properties");
             properties.store(fileOutputStream, null);
             return id;

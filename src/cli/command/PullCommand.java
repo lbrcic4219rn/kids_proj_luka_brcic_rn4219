@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PullCommand extends CLICommand{
+public class PullCommand extends CLICommand {
 
     private SuzukiKasamiDistributedMutex mutex;
+
     public PullCommand(DistributedMutex mutex) {
         super("pull");
         this.mutex = (SuzukiKasamiDistributedMutex) mutex;
@@ -33,7 +34,7 @@ public class PullCommand extends CLICommand{
 
         boolean fileExists = FileUtil.checkIfFileExists(args);
 
-        if(!fileExists) {
+        if (!fileExists) {
             AppConfig.timestampedStandardPrint("File doesnt exist in system");
             this.mutex.unlock();
             return;
@@ -44,19 +45,19 @@ public class PullCommand extends CLICommand{
         Integer ownerId = 0;
         for (Integer key : fileListMap.keySet()) {
             List<String> fileList = fileListMap.get(key);
-            if(fileList != null) {
-                for(String s: fileList){
-                    if(s.equals(args))
+            if (fileList != null) {
+                for (String s : fileList) {
+                    if (s.equals(args))
                         ownerId = key;
                 }
             }
         }
 
         //ruta do fajla
-        FileUtil.addFile(sourceDir + ownerId + "\\" + args ,args);
+        FileUtil.addFile(sourceDir + ownerId + "\\" + args, args);
 
         List<String> fileList = AppConfig.systemState.getFileListMap().get(ownerId);
-        if(fileList == null) {
+        if (fileList == null) {
             AppConfig.timestampedStandardPrint("no such file");
             this.mutex.unlock();
         }
@@ -75,7 +76,7 @@ public class PullCommand extends CLICommand{
             FileUtil.deleteFile(fileToDelete, ownerId);
         }
 
-        if(!fileFound) {
+        if (!fileFound) {
             System.out.println("no such file or folder");
             this.mutex.unlock();
         }

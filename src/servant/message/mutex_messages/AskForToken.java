@@ -24,7 +24,7 @@ public class AskForToken extends BasicMessage {
     }
 
     public AskForToken(ServantInfo originalSenderInfo, ServantInfo receiverInfo,
-                            List<ServantInfo> routeList, String messageText, int messageId, Integer sm) {
+                       List<ServantInfo> routeList, String messageText, int messageId, Integer sm) {
         super(MessageType.ASK_FOR_TOKEN, originalSenderInfo, receiverInfo, routeList, messageText, messageId);
         this.sm = sm;
     }

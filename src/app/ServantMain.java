@@ -19,7 +19,8 @@ public class ServantMain {
     /**
      * Pri pokretanju čvora dinamički se dodeljuju port i id u metodi createNewServantInfo.
      * Koristimo portove izmedju 1000 i 2000.
-     * */
+     *
+     */
 
     public static void main(String[] args) {
         int newServantId = AppConfig.readIdFromProperties();
@@ -31,6 +32,7 @@ public class ServantMain {
         startServant();
         askToEnterTheSystem();
     }
+
     private static void startServant() {
         AppConfig.timestampedStandardPrint("Starting servant " + AppConfig.myServantInfo);
 
@@ -47,6 +49,7 @@ public class ServantMain {
         Thread cliThread = new Thread(cliParser);
         cliThread.start();
     }
+
     private static void askToEnterTheSystem() {
         Message hi = new SayHiToBootstrap(MessageType.SAY_HI_TO_BOOTSTRAP, AppConfig.myServantInfo,
                 BootstrapServer.getInstance(), "Hi Bootstrap, I would like to enter the system.");

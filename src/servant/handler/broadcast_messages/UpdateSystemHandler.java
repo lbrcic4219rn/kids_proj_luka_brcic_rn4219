@@ -12,8 +12,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UpdateSystemHandler implements BroadcastHandler {
-    private UpdateSystem message;
     private static Set<Message> receivedBroadcasts = Collections.newSetFromMap(new ConcurrentHashMap<Message, Boolean>());
+    private UpdateSystem message;
 
     public UpdateSystemHandler(UpdateSystem message) {
         this.message = message;
@@ -25,7 +25,7 @@ public class UpdateSystemHandler implements BroadcastHandler {
         // On ce zvati handle kad treba.
         try {
             BroadcastUtil.processReceivedBroadcastMessage(this.message, this);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

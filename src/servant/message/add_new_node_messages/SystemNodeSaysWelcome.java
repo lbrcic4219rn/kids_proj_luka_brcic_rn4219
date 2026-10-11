@@ -9,6 +9,7 @@ import servant.message.MessageType;
 public class SystemNodeSaysWelcome extends BasicMessage {
 
     private SystemState currentSystemState;
+
     public SystemNodeSaysWelcome(MessageType type, Sender originalSenderInfo, ServantInfo receiverInfo, String messageText, SystemState currentSystemState) {
         super(type, originalSenderInfo, receiverInfo, messageText);
         this.currentSystemState = currentSystemState;

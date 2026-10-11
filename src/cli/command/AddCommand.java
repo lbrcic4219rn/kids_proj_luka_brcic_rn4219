@@ -1,7 +1,6 @@
 package cli.command;
 
 import app.AppConfig;
-import app.SystemState;
 import mutex.DistributedMutex;
 import mutex.SuzukiKasamiDistributedMutex;
 import servant.message.MessageType;
@@ -9,11 +8,10 @@ import servant.message.broadcast_messages.UpdateSystem;
 import servant.message.util.BroadcastUtil;
 import servant.message.util.FileUtil;
 
-import java.util.List;
-
-public class AddCommand extends CLICommand{
+public class AddCommand extends CLICommand {
 
     private SuzukiKasamiDistributedMutex mutex;
+
     public AddCommand(DistributedMutex mutex) {
         super("add");
         this.mutex = (SuzukiKasamiDistributedMutex) mutex;
@@ -32,7 +30,7 @@ public class AddCommand extends CLICommand{
         this.mutex.lock();
 
         boolean fileExists = FileUtil.checkIfFileExists(fileName);
-        if(fileExists) {
+        if (fileExists) {
             AppConfig.timestampedStandardPrint("File already exists in system");
             this.mutex.unlock();
             return;
