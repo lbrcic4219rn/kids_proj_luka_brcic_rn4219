@@ -1,5 +1,7 @@
 package servant.message.broadcast_messages;
 
+import lombok.Getter;
+
 import app.AppConfig;
 import app.ServantInfo;
 import app.SystemState;
@@ -11,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateSystem extends BasicMessage {
-    private SystemState currentSystemState;
+    @Getter
+    private final SystemState currentSystemState;
 
     public UpdateSystem(MessageType type, ServantInfo originalSenderInfo, ServantInfo receiverInfo, List<ServantInfo> routeList, String messageText, int messageId, SystemState currentSystemState) {
         super(type, originalSenderInfo, receiverInfo, routeList, messageText, messageId);
@@ -21,10 +24,6 @@ public class UpdateSystem extends BasicMessage {
     public UpdateSystem(MessageType type, ServantInfo originalSenderInfo, ServantInfo receiverInfo, String messageText, SystemState currentSystemState) {
         super(type, originalSenderInfo, receiverInfo, messageText);
         this.currentSystemState = currentSystemState;
-    }
-
-    public SystemState getCurrentSystemState() {
-        return currentSystemState;
     }
 
     @Override
@@ -47,5 +46,16 @@ public class UpdateSystem extends BasicMessage {
         return new UpdateSystem(this.getMessageType(), (ServantInfo) getOriginalSenderInfo(), (ServantInfo) this.getReceiverInfo(),
                 newRouteList, this.getMessageText(), getMessageId(), this.currentSystemState);
 
+    }
+
+    // Jednakost poruka je namerno ista kao u BasicMessage (id poruke + id posiljaoca) da bi radila detekcija vec primljenih broadcast poruka.
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

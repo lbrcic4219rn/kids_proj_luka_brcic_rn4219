@@ -1,7 +1,12 @@
 package app;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import servant.message.mutex_messages.TokenMessage;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,24 +14,33 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Getter
 public class ServantInfo implements Receiver, Sender, Serializable {
+    @Serial
     private static final long serialVersionUID = 5304170042791281555L;
     private final String ipAddress;
     private final int id;
+    @Getter(AccessLevel.NONE)
     private final int listenerPort;
     private final List<ServantInfo> neighbours;
 
     // ---------------------------
     // Servant info can (and must) be instantiated without this info, later this info will be set.
     // Predecessor and successor are this node buddies.
+    @Setter
     private ServantInfo predecessor;
+    @Setter
     private ServantInfo successor;
     // ---------------------------
     // Suzuki-Kasami
+    @Setter
     private AtomicInteger sm = new AtomicInteger(0);
     private Map<ServantInfo, Integer> rnMap;
+    @Getter(AccessLevel.NONE)
     private TokenMessage tokenMessage;
+    @Setter
     private boolean tokenOwner;
+    @Setter
     private String rootDir;
 
     public ServantInfo(String ipAddress, int id, int listenerPort, List<ServantInfo> neighbours) {
@@ -53,7 +67,6 @@ public class ServantInfo implements Receiver, Sender, Serializable {
         this.initSuzukiKasamiAttributes();
     }
 
-
     private void initSuzukiKasamiAttributes() {
         this.tokenOwner = false;
         this.tokenMessage = null;
@@ -62,49 +75,8 @@ public class ServantInfo implements Receiver, Sender, Serializable {
     }
 
     @Override
-    public String getIpAddress() {
-        return this.ipAddress;
-    }
-
-    @Override
     public int getPort() {
         return this.listenerPort;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public List<ServantInfo> getNeighbours() {
-        return neighbours;
-    }
-
-    public ServantInfo getPredecessor() {
-        return predecessor;
-    }
-
-    public void setPredecessor(ServantInfo predecessor) {
-        this.predecessor = predecessor;
-    }
-
-    public ServantInfo getSuccessor() {
-        return successor;
-    }
-
-    public void setSuccessor(ServantInfo successor) {
-        this.successor = successor;
-    }
-
-    public AtomicInteger getSm() {
-        return sm;
-    }
-
-    public void setSm(AtomicInteger sm) {
-        this.sm = sm;
-    }
-
-    public Map<ServantInfo, Integer> getRnMap() {
-        return rnMap;
     }
 
     public TokenMessage getToken() {
@@ -113,14 +85,6 @@ public class ServantInfo implements Receiver, Sender, Serializable {
 
     public void setToken(TokenMessage tokenMessage) {
         this.tokenMessage = tokenMessage;
-    }
-
-    public boolean isTokenOwner() {
-        return tokenOwner;
-    }
-
-    public void setTokenOwner(boolean tokenOwner) {
-        this.tokenOwner = tokenOwner;
     }
 
     public void addNeighbour(ServantInfo neighbour) {
@@ -134,13 +98,5 @@ public class ServantInfo implements Receiver, Sender, Serializable {
             tmPrint = "exists";
         }
         return "[ id: " + id + " | ipAdress: " + ipAddress + " | port: " + listenerPort + " | isTokenOwner: " + tokenOwner + "| tokenMessage: " + tmPrint + "]";
-    }
-
-    public String getRootDir() {
-        return rootDir;
-    }
-
-    public void setRootDir(String rootDir) {
-        this.rootDir = rootDir;
     }
 }

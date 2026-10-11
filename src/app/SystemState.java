@@ -1,17 +1,24 @@
 package app;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.*;
 
 public class SystemState implements Serializable { // SystemInfo ili SystemState - po uzoru na Chord state
-    private List<ServantInfo> allNodeInfo = new ArrayList<>();
-    private Map<Integer, ServantInfo> predecessorMap = new HashMap<>(); // key - node id, value - prethodnik tog node-a
-    private Map<Integer, ServantInfo> successorMap = new HashMap<>(); // key - node id, value - sledbenik tog node-a
+    private static final Random RANDOM = new SecureRandom();
+    @Getter
+    private final List<ServantInfo> allNodeInfo = new ArrayList<>();
+    private final Map<Integer, ServantInfo> successorMap = new HashMap<>(); // key - node id, value - sledbenik tog node-a
+    @Getter
+    @Setter
     private Map<Integer, List<String>> fileListMap = new HashMap<>();
 
     public ServantInfo createNewServantInfo(int servantId) {
         int portNumber = servantId + 1001; // Portovi za čvorove sistema će ići od 1001 do 2000 (port 1000 je rezervisan za bootstrap node).
-        return new ServantInfo("localhost", servantId, portNumber);
+        return new ServantInfo(AppConfig.HOST, servantId, portNumber);
     }
 
     public ServantInfo getInfoById(int id) {
@@ -24,19 +31,6 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
         return null;
     }
 
-    public ServantInfo getInfoOfServantOnPort(int port) {
-        for (ServantInfo servantInfo : allNodeInfo) {
-            if (servantInfo.getPort() == port) {
-                return servantInfo;
-            }
-        }
-        return null;
-    }
-
-    public int getServantCount() {
-        return allNodeInfo.size();
-    }
-
     public void addNewNodeInSystem(ServantInfo newNode) {
         if (allNodeInfo.size() < 4) {
             this.addNewNodeInSystemWhenThereIsLessThan4Nodes(newNode);
@@ -44,18 +38,15 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
         }
 
         // Biramo random element iz liste, ispred koga cemo da ubacimo newNode
-        Random random = new Random();
         int listSize = allNodeInfo.size();
-        int randomIndex = random.nextInt(listSize);
+        int randomIndex = RANDOM.nextInt(listSize);
 
         // Novi node se ubacuje jedno mesto desno od chosenNode-a.
         ServantInfo chosenNode = allNodeInfo.get(randomIndex);
         ServantInfo oldSuccessor = successorMap.get(chosenNode.getId());
 
         successorMap.put(chosenNode.getId(), newNode);
-        predecessorMap.put(newNode.getId(), chosenNode);
         successorMap.put(newNode.getId(), oldSuccessor);
-        predecessorMap.put(oldSuccessor.getId(), newNode);
 
         // Update-ovali smo prethodnika i sledbenika u mapama, sad treba da update-ujemo i listu komsija u allNodeInfo.
         // IDEJA: Ovde se "globalno" menja stanje sistema. Potom ce se poslati broadcast poruku da svaki cvor i kod
@@ -99,7 +90,6 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
         newNode.getNeighbours().add(oldSuccessor.getSuccessor());
         oldSuccessor.getSuccessor().getNeighbours().add(newNode);
 
-
         // Update-ujemo i sledbenike i naslednike direktno u ovim objektima pre nego sto ih sacuvamo u listi.
         chosenNode.setSuccessor(newNode);
         newNode.setPredecessor(chosenNode);
@@ -112,16 +102,14 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
     }
 
     private void addNewNodeInSystemWhenThereIsLessThan4Nodes(ServantInfo newNode) {
-        if (allNodeInfo.size() == 0) { // Ako je sistem prazan (jos nema nijedan node u sistemu).
+        if (allNodeInfo.isEmpty()) { // Ako je sistem prazan (jos nema nijedan node u sistemu).
             successorMap.put(newNode.getId(), null);
-            predecessorMap.put(newNode.getId(), null);
             allNodeInfo.add(newNode);
             return;
         }
         ServantInfo chosenNode = allNodeInfo.get(0);
         if (allNodeInfo.size() == 1) { // To znaci da nam je trenutno chosen node jedini node u sistemu i da ce ovaj koji dodajemo biti drugi.
             successorMap.put(chosenNode.getId(), newNode);
-            predecessorMap.put(newNode.getId(), chosenNode);
 
             allNodeInfo.remove(chosenNode); // Brisemo outdated chosenNode info.
 
@@ -139,11 +127,8 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
         }
         if (allNodeInfo.size() == 2) { // Ima ih 2, dodajemo treceg.
             successorMap.put(chosenNode.getId(), newNode);
-            predecessorMap.put(chosenNode.getId(), chosenNode.getSuccessor());
             successorMap.put(newNode.getId(), chosenNode.getSuccessor());
-            predecessorMap.put(newNode.getId(), chosenNode);
             successorMap.put(chosenNode.getSuccessor().getId(), chosenNode);
-            predecessorMap.put(chosenNode.getSuccessor().getId(), newNode);
 
             ServantInfo oldSuccessor = chosenNode.getSuccessor();
             allNodeInfo.remove(chosenNode); // Brisemo outdated chosenNode info.
@@ -168,9 +153,7 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
         }
         if (allNodeInfo.size() == 3) {
             successorMap.put(chosenNode.getId(), newNode);
-            predecessorMap.put(newNode.getId(), chosenNode);
             successorMap.put(newNode.getId(), chosenNode.getSuccessor());
-            predecessorMap.put(chosenNode.getSuccessor().getId(), newNode);
 
             ServantInfo oldSuccessor = chosenNode.getSuccessor();
             ServantInfo predecessor = chosenNode.getPredecessor();
@@ -193,17 +176,5 @@ public class SystemState implements Serializable { // SystemInfo ili SystemState
             allNodeInfo.add(oldSuccessor);
             allNodeInfo.add(newNode);
         }
-    }
-
-    public List<ServantInfo> getAllNodeInfo() {
-        return allNodeInfo;
-    }
-
-    public Map<Integer, List<String>> getFileListMap() {
-        return fileListMap;
-    }
-
-    public void setFileListMap(Map<Integer, List<String>> fileListMap) {
-        this.fileListMap = fileListMap;
     }
 }

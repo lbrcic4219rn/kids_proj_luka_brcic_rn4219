@@ -1,0 +1,35 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets.main.java.srcDirs = ['src']
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainClass = 'app.ServantMain'
+}
+
+tasks.named('run') {
+    standardInput = System.in
+}
+
+tasks.register('runBootstrap', JavaExec) {
+    group = 'application'
+    description = 'Runs the bootstrap server.'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'app.BootstrapServer'
+    standardInput = System.in
+}

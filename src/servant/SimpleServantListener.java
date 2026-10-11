@@ -1,9 +1,12 @@
 package servant;
 
+import lombok.RequiredArgsConstructor;
+
 import app.AppConfig;
 import app.Cancellable;
 import mutex.DistributedMutex;
 import servant.handler.MessageHandler;
+import servant.handler.NullHandler;
 import servant.handler.add_new_node_messages.BootstrapSaysHelloHandler;
 import servant.handler.add_new_node_messages.SayHiToSystemNodeHandler;
 import servant.handler.add_new_node_messages.SystemNodeSaysWelcomeHandler;
@@ -27,44 +30,36 @@ import servant.message.broadcast_messages.UpdateSystem;
 import servant.message.util.MessageUtil;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@RequiredArgsConstructor
 public class SimpleServantListener implements Runnable, Cancellable {
     private final ExecutorService threadPool = Executors.newWorkStealingPool();
     private volatile boolean working = true;
-    private DistributedMutex mutex;
-
-    public SimpleServantListener(DistributedMutex mutex) {
-        this.mutex = mutex;
-    }
+    private final DistributedMutex mutex;
 
     @Override
     public void run() {
-//        ServerSocket listenerSocket = null;
-//        try {
-//            listenerSocket = new ServerSocket(AppConfig.myServantInfo.getPort(), 100);
-//            listenerSocket.setSoTimeout(1000);
-//        } catch (IOException e) {
-//            AppConfig.timestampedErrorPrint("Couldn't open listener socket on: " + AppConfig.myServantInfo.getPort());
-//            System.exit(0);
-//        }
-        ServerSocket listenerSocket = null;
-        try {
-            listenerSocket = new ServerSocket(AppConfig.myServantInfo.getPort(), 100);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        while (working) {
-            try {
-                Socket clientSocket = listenerSocket.accept();
-                Message clientMessage = MessageUtil.readMessage(clientSocket);
-                threadPool.submit(this.getHandler(clientMessage));
-            } catch (IOException e) {
-                e.printStackTrace();
+        try (ServerSocket listenerSocket = new ServerSocket(AppConfig.myServantInfo.getPort(), 100)) {
+            while (working) {
+                handleNextMessage(listenerSocket);
             }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private void handleNextMessage(ServerSocket listenerSocket) {
+        try {
+            Socket clientSocket = listenerSocket.accept();
+            Message clientMessage = MessageUtil.readMessage(clientSocket);
+            threadPool.submit(this.getHandler(clientMessage));
+        } catch (IOException e) {
+            AppConfig.timestampedErrorPrint("Error while receiving message: " + e);
         }
     }
 
@@ -86,7 +81,7 @@ public class SimpleServantListener implements Runnable, Cancellable {
             case POISON -> new PoisonHandler();
             case GIVE_FILE -> new GiveFileHandler();
             case REQUEST_FILE -> new RequestFileHandler();
-            default -> null;
+            default -> new NullHandler(clientMessage);
         };
     }
 
@@ -94,5 +89,4 @@ public class SimpleServantListener implements Runnable, Cancellable {
     public void stop() {
         this.working = false;
     }
-
 }

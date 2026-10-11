@@ -1,5 +1,7 @@
 package mutex;
 
+import lombok.Getter;
+
 import app.AppConfig;
 import app.ServantInfo;
 import servant.message.mutex_messages.AskForToken;
@@ -10,8 +12,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class SuzukiKasamiDistributedMutex implements DistributedMutex {
-    private AtomicBoolean distributedMutexInitiated = new AtomicBoolean(false);
-    private AtomicLong timeStamp;
+    @Getter
+    private final AtomicBoolean distributedMutexInitiated = new AtomicBoolean(false);
+    private final AtomicLong timeStamp;
 
     public SuzukiKasamiDistributedMutex() {
         this.timeStamp = new AtomicLong(AppConfig.myServantInfo.getId());
@@ -29,13 +32,16 @@ public class SuzukiKasamiDistributedMutex implements DistributedMutex {
         }
     }
 
+    // Namerno prozivanje (polling): vlasnistvo nad tokenom stize porukom, a AppConfig.myServantInfo se zamenjuje pri svakom update-u sistema.
+    @SuppressWarnings("BusyWait")
     @Override
     public void lock() {
         while (!distributedMutexInitiated.compareAndSet(false, true)) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException("Interrupted while waiting to initiate distributed mutex.", e);
             }
         }
         if (!AppConfig.myServantInfo.isTokenOwner()) {
@@ -47,15 +53,13 @@ public class SuzukiKasamiDistributedMutex implements DistributedMutex {
             }
         }
 
-
-        while (true) {
-            if (AppConfig.myServantInfo.isTokenOwner()) {
-                break;
-            }
+        while (!AppConfig.myServantInfo.isTokenOwner()) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                distributedMutexInitiated.set(false);
+                throw new IllegalStateException("Interrupted while waiting for token.", e);
             }
         }
     }
@@ -89,9 +93,5 @@ public class SuzukiKasamiDistributedMutex implements DistributedMutex {
             }
         }
         distributedMutexInitiated.set(false);
-    }
-
-    public AtomicBoolean getDistributedMutexInitiated() {
-        return distributedMutexInitiated;
     }
 }

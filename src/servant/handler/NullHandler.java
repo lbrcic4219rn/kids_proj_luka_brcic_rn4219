@@ -1,14 +1,13 @@
 package servant.handler;
 
+import lombok.RequiredArgsConstructor;
+
 import app.AppConfig;
 import servant.message.Message;
 
+@RequiredArgsConstructor
 public class NullHandler implements MessageHandler {
     private final Message clientMessage;
-
-    public NullHandler(Message clientMessage) {
-        this.clientMessage = clientMessage;
-    }
 
     @Override
     public void run() {
@@ -17,6 +16,6 @@ public class NullHandler implements MessageHandler {
 
     @Override
     public void handle() {
-
+        // Nema sta da se obradi - poruka nepoznatog tipa se samo prijavi u run().
     }
 }

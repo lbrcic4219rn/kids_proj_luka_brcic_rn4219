@@ -1,5 +1,8 @@
 package servant.message.mutex_messages;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import app.AppConfig;
 import app.ServantInfo;
 import servant.message.BasicMessage;
@@ -19,6 +22,8 @@ import java.util.Queue;
  * token do čvora koji ga je zahtevao.
  *
  */
+@Getter
+@Setter
 public class TokenMessage extends BasicMessage {
     private Map<ServantInfo, Integer> lnMap;
     private Queue<ServantInfo> queue;
@@ -36,32 +41,14 @@ public class TokenMessage extends BasicMessage {
         this.lnMap = lnMap;
     }
 
-    public Map<ServantInfo, Integer> getLnMap() {
-        return lnMap;
-    }
-
-    public void setLnMap(Map<ServantInfo, Integer> lnMap) {
-        this.lnMap = lnMap;
-    }
-
-    public Queue<ServantInfo> getQueue() {
-        return queue;
-    }
-
-    public void setQueue(Queue<ServantInfo> queue) {
-        this.queue = queue;
-    }
-
     @Override
     public Message changeReceiver(Integer newReceiverId) {
         boolean isNeighbour = AppConfig.myServantInfo.getNeighbours().stream().anyMatch(servantInfo -> servantInfo.getId() == newReceiverId);
         if (isNeighbour) {
             ServantInfo newReceiverInfo = AppConfig.systemState.getInfoById(newReceiverId);
 
-            Message toReturn = new TokenMessage((ServantInfo) getOriginalSenderInfo(),
+            return new TokenMessage((ServantInfo) getOriginalSenderInfo(),
                     newReceiverInfo, getRoute(), getMessageText(), getMessageId(), lnMap, queue);
-
-            return toReturn;
         } else {
             AppConfig.timestampedErrorPrint("Trying to make a message for " + newReceiverId + " who is not a neighbor.");
 
@@ -76,9 +63,18 @@ public class TokenMessage extends BasicMessage {
 
         List<ServantInfo> newRouteList = new ArrayList<>(getRoute());
         newRouteList.add(newRouteItem);
-        Message toReturn = new TokenMessage((ServantInfo) getOriginalSenderInfo(),
+        return new TokenMessage((ServantInfo) getOriginalSenderInfo(),
                 (ServantInfo) getReceiverInfo(), newRouteList, getMessageText(), getMessageId(), lnMap, queue);
+    }
 
-        return toReturn;
+    // Jednakost poruka je namerno ista kao u BasicMessage (id poruke + id posiljaoca) da bi radila detekcija vec primljenih broadcast poruka.
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

@@ -1,24 +1,23 @@
 package servant.handler.add_new_node_messages;
 
+import lombok.RequiredArgsConstructor;
+
 import app.AppConfig;
 import app.ServantInfo;
 import app.SystemState;
 import servant.handler.MessageHandler;
 import servant.message.add_new_node_messages.SystemNodeSaysWelcome;
 
+@RequiredArgsConstructor
 public class SystemNodeSaysWelcomeHandler implements MessageHandler {
-    private SystemNodeSaysWelcome message;
-
-    public SystemNodeSaysWelcomeHandler(SystemNodeSaysWelcome message) {
-        this.message = message;
-    }
+    private final SystemNodeSaysWelcome message;
 
     @Override
     public void run() {
         try {
             this.handle();
         } catch (Exception e) {
-            e.printStackTrace();
+            AppConfig.timestampedErrorPrint("Error while handling message " + message + ": " + e);
         }
     }
 
@@ -32,8 +31,7 @@ public class SystemNodeSaysWelcomeHandler implements MessageHandler {
             return;
         }
         SystemState currentSystemState = message.getCurrentSystemState();
-        AppConfig.systemState = currentSystemState;
-        AppConfig.myServantInfo = currentSystemState.getInfoById(AppConfig.myServantInfo.getId());
+        AppConfig.applySystemState(currentSystemState);
         AppConfig.timestampedStandardPrint("Great, I'm in the system now. Currently number of nodes in the system is " + currentSystemState.getAllNodeInfo().size());
     }
 }

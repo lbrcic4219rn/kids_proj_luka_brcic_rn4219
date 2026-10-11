@@ -1,11 +1,15 @@
 package servant.message.mutex_messages;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import app.AppConfig;
 import app.ServantInfo;
 import servant.message.BasicMessage;
 import servant.message.Message;
 import servant.message.MessageType;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +18,11 @@ import java.util.List;
  * Ovo je broadcast poruka.
  */
 public class AskForToken extends BasicMessage {
+    @Serial
     private static final long serialVersionUID = 2084490973699262440L;
     // Boj trazenja kriticne sekcije
+    @Getter
+    @Setter
     private Integer sm;
 
     public AskForToken(ServantInfo sender, ServantInfo receiver, long timeStamp, Integer sm) {
@@ -26,14 +33,6 @@ public class AskForToken extends BasicMessage {
     public AskForToken(ServantInfo originalSenderInfo, ServantInfo receiverInfo,
                        List<ServantInfo> routeList, String messageText, int messageId, Integer sm) {
         super(MessageType.ASK_FOR_TOKEN, originalSenderInfo, receiverInfo, routeList, messageText, messageId);
-        this.sm = sm;
-    }
-
-    public Integer getSm() {
-        return sm;
-    }
-
-    public void setSm(Integer sm) {
         this.sm = sm;
     }
 
@@ -56,9 +55,18 @@ public class AskForToken extends BasicMessage {
 
         List<ServantInfo> newRouteList = new ArrayList<>(getRoute());
         newRouteList.add(newRouteItem);
-        Message toReturn = new AskForToken((ServantInfo) getOriginalSenderInfo(),
+        return new AskForToken((ServantInfo) getOriginalSenderInfo(),
                 (ServantInfo) getReceiverInfo(), newRouteList, getMessageText(), getMessageId(), sm);
+    }
 
-        return toReturn;
+    // Jednakost poruka je namerno ista kao u BasicMessage (id poruke + id posiljaoca) da bi radila detekcija vec primljenih broadcast poruka.
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

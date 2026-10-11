@@ -1,5 +1,7 @@
 package servant.message;
 
+import lombok.Getter;
+
 import app.*;
 
 import java.io.Serial;
@@ -11,12 +13,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class BasicMessage implements Message {
     @Serial
     private static final long serialVersionUID = -9075856313609777945L;
-    private static AtomicInteger messageCounter = new AtomicInteger(0);
+    private static final AtomicInteger messageCounter = new AtomicInteger(0);
     private final MessageType type;
+    @Getter
     private final Sender originalSenderInfo;
+    @Getter
     private final Receiver receiverInfo; // receiver is always instance of ServantInfo except when adding new node -> in that case: BootstrapServer
     private final List<ServantInfo> routeList;
+    @Getter
     private final String messageText;
+    @Getter
     private final int messageId;
 
     public BasicMessage(MessageType type, Sender originalSenderInfo, Receiver receiverInfo) {
@@ -52,28 +58,8 @@ public class BasicMessage implements Message {
     }
 
     @Override
-    public Sender getOriginalSenderInfo() {
-        return originalSenderInfo;
-    }
-
-    @Override
-    public Receiver getReceiverInfo() {
-        return receiverInfo;
-    }
-
-    @Override
     public List<ServantInfo> getRoute() {
         return routeList;
-    }
-
-    @Override
-    public String getMessageText() {
-        return messageText;
-    }
-
-    @Override
-    public int getMessageId() {
-        return messageId;
     }
 
     @Override
@@ -99,17 +85,14 @@ public class BasicMessage implements Message {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof BasicMessage) {
-            BasicMessage other = (BasicMessage) obj;
+        if (obj instanceof BasicMessage other) {
             if (this.getOriginalSenderInfo() instanceof BootstrapServer || other.getOriginalSenderInfo() instanceof BootstrapServer) {
                 return false;
             }
             ServantInfo senderInfo = (ServantInfo) this.getOriginalSenderInfo();
             ServantInfo otherSenderInfo = (ServantInfo) other.getOriginalSenderInfo();
-            if (getMessageId() == other.getMessageId() &&
-                    senderInfo.getId() == otherSenderInfo.getId()) {
-                return true;
-            }
+            return getMessageId() == other.getMessageId() &&
+                    senderInfo.getId() == otherSenderInfo.getId();
         }
 
         return false;
@@ -139,9 +122,9 @@ public class BasicMessage implements Message {
         if (sender instanceof BootstrapServer) {
             return "[BootstrapServer ID]";
         }
-        Integer id = ((ServantInfo) sender).getId();
+        int id = ((ServantInfo) sender).getId();
 
-        return id.toString();
+        return String.valueOf(id);
     }
 
     private String getReceiverIdFromMessageAsString() {
@@ -152,8 +135,7 @@ public class BasicMessage implements Message {
         if (receiver instanceof BootstrapServer) {
             return "[BootstrapServer ID]";
         }
-        Integer id = ((ServantInfo) receiver).getId();
-        return id.toString();
+        int id = ((ServantInfo) receiver).getId();
+        return String.valueOf(id);
     }
-
 }

@@ -1,7 +1,9 @@
 package servant.handler.broadcast_messages;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import app.AppConfig;
-import app.SystemState;
 import servant.handler.BroadcastHandler;
 import servant.message.Message;
 import servant.message.broadcast_messages.UpdateSystem;
@@ -11,13 +13,11 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@RequiredArgsConstructor
 public class UpdateSystemHandler implements BroadcastHandler {
-    private static Set<Message> receivedBroadcasts = Collections.newSetFromMap(new ConcurrentHashMap<Message, Boolean>());
-    private UpdateSystem message;
-
-    public UpdateSystemHandler(UpdateSystem message) {
-        this.message = message;
-    }
+    private static final Set<Message> receivedBroadcasts = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    @Getter
+    private final UpdateSystem message;
 
     @Override
     public void run() {
@@ -26,12 +26,8 @@ public class UpdateSystemHandler implements BroadcastHandler {
         try {
             BroadcastUtil.processReceivedBroadcastMessage(this.message, this);
         } catch (Exception e) {
-            e.printStackTrace();
+            AppConfig.timestampedErrorPrint("Error while handling message " + message + ": " + e);
         }
-    }
-
-    public UpdateSystem getMessage() {
-        return message;
     }
 
     @Override
@@ -40,9 +36,7 @@ public class UpdateSystemHandler implements BroadcastHandler {
 
         boolean isTokenOwner = AppConfig.myServantInfo.isTokenOwner();
 
-        SystemState currentSystemState = message.getCurrentSystemState();
-        AppConfig.systemState = currentSystemState;
-        AppConfig.myServantInfo = currentSystemState.getInfoById(AppConfig.myServantInfo.getId());
+        AppConfig.applySystemState(message.getCurrentSystemState());
 
         AppConfig.myServantInfo.setTokenOwner(isTokenOwner);
     }
