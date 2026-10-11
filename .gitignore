@@ -38,3 +38,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Node storage (created at runtime) ###
+workplace/*
+!workplace/.gitkeep

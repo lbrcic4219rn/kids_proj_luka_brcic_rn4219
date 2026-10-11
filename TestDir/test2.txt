@@ -1,0 +1,2 @@
+SillyGit test file 2
+A second top-level file, so two nodes can each add a different one.
