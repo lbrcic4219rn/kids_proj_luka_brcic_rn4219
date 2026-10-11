@@ -5,7 +5,7 @@ Systems course (KiDS) at the School of Computing in Belgrade. Nodes form a ring,
 detect failed nodes and recover from them, and coordinate through a Suzuki Kasami token mutex.
 
 The assignment text is in `KiDS Projekat.pdf` (Serbian). The full protocol description is in
-[DOCUMENTATION.md](DOCUMENTATION.md).
+[PROTOCOL.md](PROTOCOL.md).
 
 ## Features
 
@@ -122,4 +122,4 @@ and remove it after the strong limit.
 * A node that the system wrongly declared dead shuts down and has to be started again.
 * A file is lost if all three nodes that store it fail at the same time.
 
-More detail on all of this is in [DOCUMENTATION.md](DOCUMENTATION.md).
+More detail on all of this is in [PROTOCOL.md](PROTOCOL.md).
